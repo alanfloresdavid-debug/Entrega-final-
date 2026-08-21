@@ -1,0 +1,1175 @@
+{
+  "name": "Proceso de consultas",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "maxResults": 1,
+        "filters": {
+          "readStatus": "unread"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b3344251-c0f4-4cbb-b355-c4d067155e5c",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DJ1FNL23BPVP1wIG",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "769825eb-fa46-4e11-8cef-a30b5c8958b2",
+              "name": "Email ",
+              "value": "={{ $json.From }}",
+              "type": "string"
+            },
+            {
+              "id": "d9c7e3fd-5db6-44f3-856f-e69fdfe97a51",
+              "name": "Asunto",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "17317d23-23c6-49ff-8240-2daa07a797ca",
+              "name": "texto del mensaje",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "7270c600-4871-4318-b4a3-ad278539a3ac",
+              "name": "theread id",
+              "value": "={{ $json.threadId }}",
+              "type": "string"
+            },
+            {
+              "id": "2c4fac75-15a9-4717-9370-5cb332f2d979",
+              "name": "fecha ",
+              "value": "={{$now.toISO()}}",
+              "type": "string"
+            },
+            {
+              "id": "75ff32d3-5864-4690-9c70-39c30c0c4cc2",
+              "name": "Cliente",
+              "value": "={{ $json.From }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "c4fa1d1a-d965-487a-bb95-b3e99317501f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appNxSVM3uRu2curt",
+          "mode": "list",
+          "cachedResultName": "Consultas de Ia",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbluVlPOjTmuqwIp2",
+          "mode": "list",
+          "cachedResultName": "consultas",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt/tbluVlPOjTmuqwIp2"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Aprobado": false,
+            "date": "={{ $json['fecha '] }}",
+            "Email": "={{ $json['Email '] }}",
+            "asunto": "={{ $json.Asunto }}",
+            "mensaje original": "={{ $json['texto del mensaje'] }}",
+            "Estado": "pendiente",
+            "Gmail thread": "={{ $json['theread id'] }}",
+            "fecha de envio ": "={{ $json['fecha '] }}",
+            "Gmail Message ID": "={{ $('Gmail Trigger').item.json.id }}",
+            "Cliente": "={{ $json.Cliente }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "ID Consulta",
+              "displayName": "ID Consulta",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cliente",
+              "displayName": "Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "asunto",
+              "displayName": "asunto",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "mensaje original",
+              "displayName": "mensaje original",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Categoria Ia",
+              "displayName": "Categoria Ia",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Cotizacion  ",
+                  "value": "Cotizacion  "
+                },
+                {
+                  "name": "pago ",
+                  "value": "pago "
+                },
+                {
+                  "name": "envio",
+                  "value": "envio"
+                },
+                {
+                  "name": "informacion",
+                  "value": "informacion"
+                },
+                {
+                  "name": "otro",
+                  "value": "otro"
+                },
+                {
+                  "name": "Stock",
+                  "value": "Stock"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Prioridad Ia",
+              "displayName": "Prioridad Ia",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Alta",
+                  "value": "Alta"
+                },
+                {
+                  "name": "Media",
+                  "value": "Media"
+                },
+                {
+                  "name": "Baja",
+                  "value": "Baja"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Resumen Ia",
+              "displayName": "Resumen Ia",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Borrador respuesta",
+              "displayName": "Borrador respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Procesado por la Ia",
+                  "value": "Procesado por la Ia"
+                },
+                {
+                  "name": "pendiente",
+                  "value": "pendiente"
+                },
+                {
+                  "name": "aprobado por humano ",
+                  "value": "aprobado por humano "
+                },
+                {
+                  "name": "enviado",
+                  "value": "enviado"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Aprobado",
+              "displayName": "Aprobado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gmail thread",
+              "displayName": "Gmail thread",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "fecha de envio ",
+              "displayName": "fecha de envio ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Clientes",
+              "displayName": "Clientes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Table 3",
+              "displayName": "Table 3",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gmail Message ID",
+              "displayName": "Gmail Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        0
+      ],
+      "id": "beabfc1f-2d04-42e1-9861-55e48d90619f",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "MeMOsg1gc01sfTpG",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Actúa como asistente comercial especializado en atención de consultas mayoristas.\n\nAnaliza la siguiente consulta recibida por email:\n\nEmail del cliente: {{ $json.fields.Email }}\nAsunto:{{ $json.fields.asunto }}\nMensaje: {{ $json.fields['mensaje original'].value }}\n\nDebes devolver únicamente un JSON válido con esta estructura:\n\n{\n\"categoria\": \"Cotización | Stock | Pago | Envío | Información | Otro\",\n\"prioridad\": \"Alta | Media | Baja\",\n\"resumen\": \"Resumen breve de la consulta\",\n\"respuesta_sugerida\": \"Respuesta profesional y clara para enviar al cliente\"\n}\n\nCriterios:\n\n* Alta: intención clara de compra, problema urgente o consulta que requiere atención inmediata.\n* Media: consulta comercial concreta sin urgencia.\n* Baja: consulta general o informativa.\n* No inventes precios, stock, condiciones comerciales ni información que no esté disponible.\n* Si falta información para responder correctamente, indicá en la respuesta sugerida que se verificará antes de confirmar.\n* No agregues texto fuera del JSON.\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        576,
+        -80
+      ],
+      "id": "4eaaf69b-f7a4-4374-b46e-f9a67c76f990",
+      "name": "Basic LLM Chain",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "deepseek-v4-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        544,
+        80
+      ],
+      "id": "b5f6e182-211b-41f8-b0bb-a27ec562f128",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "MaSSiYCB9PNXEhGR",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appNxSVM3uRu2curt",
+          "mode": "list",
+          "cachedResultName": "Consultas de Ia",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbluVlPOjTmuqwIp2",
+          "mode": "list",
+          "cachedResultName": "consultas",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt/tbluVlPOjTmuqwIp2"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Aprobado": false,
+            "id": "={{ $('Create a record').item.json.id }}",
+            "Categoria Ia": "={{ $json.output.categoria }}",
+            "Prioridad Ia": "={{ $json.output.prioridad }}",
+            "Resumen Ia": "={{ $json.output.resumen }}",
+            "Borrador respuesta": "={{ $json.output.respuesta_sugerida }}",
+            "Estado": "Procesado por la Ia",
+            "Gmail thread": "={{ $('Create a record').item.json.fields['Gmail Message ID'] }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "ID Consulta",
+              "displayName": "ID Consulta",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cliente",
+              "displayName": "Cliente",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "asunto",
+              "displayName": "asunto",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "mensaje original",
+              "displayName": "mensaje original",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Categoria Ia",
+              "displayName": "Categoria Ia",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Cotizacion  ",
+                  "value": "Cotizacion  "
+                },
+                {
+                  "name": "pago ",
+                  "value": "pago "
+                },
+                {
+                  "name": "envio",
+                  "value": "envio"
+                },
+                {
+                  "name": "informacion",
+                  "value": "informacion"
+                },
+                {
+                  "name": "otro",
+                  "value": "otro"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Prioridad Ia",
+              "displayName": "Prioridad Ia",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Alta",
+                  "value": "Alta"
+                },
+                {
+                  "name": "Media",
+                  "value": "Media"
+                },
+                {
+                  "name": "Baja",
+                  "value": "Baja"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Resumen Ia",
+              "displayName": "Resumen Ia",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Borrador respuesta",
+              "displayName": "Borrador respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Procesado por la Ia",
+                  "value": "Procesado por la Ia"
+                },
+                {
+                  "name": "pendiente",
+                  "value": "pendiente"
+                },
+                {
+                  "name": "aprobado por humano ",
+                  "value": "aprobado por humano "
+                },
+                {
+                  "name": "enviado",
+                  "value": "enviado"
+                },
+                {
+                  "name": "error",
+                  "value": "error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Aprobado",
+              "displayName": "Aprobado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gmail thread",
+              "displayName": "Gmail thread",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "fecha de envio ",
+              "displayName": "fecha de envio ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Clientes",
+              "displayName": "Clientes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Table 3",
+              "displayName": "Table 3",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        -208
+      ],
+      "id": "256e2860-4a3d-4d6f-bef0-37ba056c377c",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "MeMOsg1gc01sfTpG",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "alanfloresdavid@gmail.com",
+        "subject": "=Revisión requerida - {{ $json.fields['Categoria Ia'] }}{{ $json.fields['Prioridad Ia'] }}",
+        "message": "=Nueva consulta procesada por IA.  Cliente: {{$node[\"Create a record\"].json[\"fields\"][\"Email\"]}}  Asunto: {{$node[\"Create a record\"].json[\"fields\"][\"asunto\"]}}  Categoría: {{ $json.fields['Categoria Ia'] }} Prioridad:{{ $json.fields['Prioridad Ia'] }}   Resumen:{{ $json.fields['Categoria Ia'] }}  Borrador sugerido: {{ $json.fields['Borrador respuesta'] }}  Revisar en Airtable y marcar el campo \"Aprobado\" cuando corresponda.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1088,
+        -208
+      ],
+      "id": "cca166ff-766c-48f8-8874-e6fdd1e43e71",
+      "name": "Send a message",
+      "webhookId": "67da3c17-f873-47ec-9a79-6be28bfca926",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DJ1FNL23BPVP1wIG",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appNxSVM3uRu2curt",
+          "mode": "list",
+          "cachedResultName": "Consultas de Ia",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl66urr372hrFApD",
+          "mode": "list",
+          "cachedResultName": "Ejecuciones",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt/tbl66urr372hrFApD"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Reintento": false,
+            "Fecha": "={{$now.toISO()}}",
+            "Estado": "Error",
+            "detalle de error": "={{ $json.error }}",
+            "Nodo": "DeepSeek"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id Ejecucion",
+              "displayName": "Id Ejecucion",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "consultas",
+              "displayName": "consultas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Error",
+                  "value": "Error"
+                },
+                {
+                  "name": "exito",
+                  "value": "exito"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nodo",
+              "displayName": "Nodo",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Codigo error",
+              "displayName": "Codigo error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "detalle de error",
+              "displayName": "detalle de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Reintento",
+              "displayName": "Reintento",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        0
+      ],
+      "id": "b5619bec-dc50-46bc-8781-72aa974120f7",
+      "name": "Create a record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "MeMOsg1gc01sfTpG",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"categoria\": \"Cotización\",\n  \"prioridad\": \"Alta\",\n  \"resumen\": \"Cliente consulta precio y disponibilidad de 100 unidades.\",\n  \"respuesta_sugerida\": \"Hola, gracias por tu consulta. Vamos a verificar disponibilidad y precio para poder confirmarte la información.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        112
+      ],
+      "id": "d34e0001-3fca-47f0-9ff3-940300324e9a",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appNxSVM3uRu2curt",
+          "mode": "list",
+          "cachedResultName": "Consultas de Ia",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl66urr372hrFApD",
+          "mode": "list",
+          "cachedResultName": "Ejecuciones",
+          "cachedResultUrl": "https://airtable.com/appNxSVM3uRu2curt/tbl66urr372hrFApD"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Reintento": false,
+            "Estado": "exito",
+            "Fecha": "={{$now.toISO()}}",
+            "Nodo": "Workflow 1 completo",
+            "consultas": "={{ [ $('Create a record').item.json.id ] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id Ejecucion",
+              "displayName": "Id Ejecucion",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "consultas",
+              "displayName": "consultas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Error",
+                  "value": "Error"
+                },
+                {
+                  "name": "exito",
+                  "value": "exito"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Nodo",
+              "displayName": "Nodo",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Codigo error",
+              "displayName": "Codigo error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "detalle de error",
+              "displayName": "detalle de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Reintento",
+              "displayName": "Reintento",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        -208
+      ],
+      "id": "b56a1fa5-9e3c-4407-abcb-f4fe7a8598fe",
+      "name": "Create a record2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "MeMOsg1gc01sfTpG",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Create a record2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "225a288d-1c73-485d-bddf-5d2aa5f3c693",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c786b4bb15ccaac9c555d331b76ced5f284e6ae7c839c58859717ef5eb7bed43"
+  },
+  "nodeGroups": [],
+  "id": "P8CCyTT7HpljKjoP",
+  "tags": []
+}
